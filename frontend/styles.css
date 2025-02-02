@@ -314,9 +314,26 @@ footer {
 
 .footer-content {
     display: flex;
-    justify-content: center;
-    gap: 1rem;
     align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-content span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.separator::before {
+    content: "•";
+    color: #666;
+    font-size: 1.2em;
+}
+
+.fa-code, .fa-handshake, .fa-lock, .fa-shield-halved, .fa-flag {
+    font-size: 0.9em;
 }
 
 @media (max-width: 768px) {
@@ -723,4 +740,27 @@ nav {
     background: var(--primary-gradient);
     color: white;
     font-weight: 500;
+}
+
+/* Add to your existing styles */
+.input-with-icon {
+    position: relative;
+    display: inline-block;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+#system-prompt-input {
+    padding-left: 30px; /* Make space for the icon */
+}
+
+.fa-lock {
+    margin-left: 5px;
+    color: #4CAF50;
 }

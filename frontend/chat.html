@@ -6,20 +6,37 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    @font-face {
+        font-family: "Noto Emoji";
+        src: url("NotoColorEmoji.ttf") format("truetype");
+    }
+
+    .emoji-fallback {
+        font-family: "Noto Emoji", sans-serif;
+    }
+    </style>
 </head>
 <body>
     <!-- Add navigation bar -->
     <nav>
-        <button id="new-conversation" class="nav-button">🗨️ New Chat</button>
+        <button id="new-conversation" class="nav-button">
+            <i class="fa-regular fa-comment-dots"></i> New Chat
+        </button>
         
         <select id="model-select" class="model-select" disabled>
             <option>Loading models...</option>
         </select>
         
-        <button id="download-model" class="nav-button">⬇️ Download Model</button>
+        <button id="download-model" class="nav-button">
+            <i class="fa-solid fa-download"></i> Download Model
+        </button>
 
         <div class="settings-dropdown">
-            <button class="nav-button" id="settings-button">⚙️ Settings</button>
+            <button class="nav-button" id="settings-button">
+                <i class="fa-solid fa-gear"></i> Settings
+            </button>
             <div class="settings-panel" id="settings-panel">
                 <div class="param-control">
                     <label>Temperature:</label>
@@ -45,15 +62,19 @@
         </div>
         
         <input type="text" id="system-prompt-input" 
-               placeholder="⚙️ System instruction">
-        <button id="model-help" class="nav-button" title="Model Help">❓</button>
+                   placeholder="| System Instruction | Your name is PrivAI..">
+        <button id="model-help" class="nav-button" title="Model Help">
+            <i class="fa-regular fa-circle-question"></i>
+        </button>
     </nav>
 
     <div id="chat-container">
         <div id="messages"></div>
         <div id="input-container">
             <input type="file" id="image-upload" multiple accept="image/*" style="display: none;">
-            <button class="icon-button" onclick="document.getElementById('image-upload').click()">📷</button>
+            <button class="icon-button" onclick="document.getElementById('image-upload').click()">
+                <i class="fa-regular fa-image"></i>
+            </button>
             <div style="display: flex; align-items: center; gap: 8px; flex-grow: 1;">
                 <div id="image-previews" style="display: flex; gap: 4px; align-items: center;"></div>
                 <input type="text" id="user-input" placeholder="Type your message..." style="flex-grow: 1;">
@@ -64,13 +85,11 @@
         <!-- Add footer inside chat-container -->
         <footer>
             <div class="footer-content">
-                <span>Crafted with Ollama • Honoring MK's Vision</span>
-                <span>•</span>
-                <span>Private Offline Conversations 🔒</span>
-                <span>•</span>
-                <span>Your Data Never Leaves Your Device</span>
-                <span>•</span>
-                <span>v1.0.0</span>
+                <span><i class="fa-solid fa-code"></i> Crafted with Ollama</span>
+                <span><i class="fa-regular fa-handshake"></i> Honoring MK's Vision</span>
+                <span><i class="fa-solid fa-lock"></i> Private Offline Conversations</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Your Data Never Leaves</span>
+                <span><i class="fa-solid fa-flag"></i> v1.0.0</span>
             </div>
         </footer>
     </div>
