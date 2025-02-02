@@ -120,7 +120,7 @@ project-root/
 ---
 
 **📜 Full Documentation**  
-Explore our [Wiki](https://github.com/yourrepo/offline-ai-chat/wiki) for:
+Explore our [API Doc](https://github.com/JKL404/Offline-Chat-Application/blob/main/backend/README.md) for:
 - Advanced model configurations
 - Vision pipeline architecture
 - Local deployment guides
