@@ -99,6 +99,7 @@ pip install -r backend/requirements.txt
 ```
 2.3. Start FastAPI Server:
 ```bash
+cd backend
 uvicorn main:app --reload --port 3000
 ```
 
