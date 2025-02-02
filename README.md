@@ -45,11 +45,22 @@ ollama pull llama2:13b   # Medium-sized variant
 ## Installation
 
 ### 1. Ollama Setup
+Follow platform-specific instructions:
+
+#### macOS
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
+```
+or
 
-# Windows
-# Download from https://ollama.com/download/OllamaSetup.exe
+Download installer from [ollama.com/download/Ollama-darwin.zip](https://ollama.com/download/Ollama-darwin.zip)
+
+#### Windows
+Download installer from [ollama.com/download/OllamaSetup.exe](https://ollama.com/download/OllamaSetup.exe)
+
+#### Linux
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
 ```
 
 ### 2. Backend Dependencies
