@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Offline Chat Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
+</head>
+<body>
+    <!-- Add navigation bar -->
+    <nav>
+        <button id="new-conversation" class="nav-button">🗨️ New Chat</button>
+        
+        <select id="model-select" class="model-select" disabled>
+            <option>Loading models...</option>
+        </select>
+        
+        <button id="download-model" class="nav-button">⬇️ Download Model</button>
+
+        <div class="settings-dropdown">
+            <button class="nav-button" id="settings-button">⚙️ Settings</button>
+            <div class="settings-panel" id="settings-panel">
+                <div class="param-control">
+                    <label>Temperature:</label>
+                    <input type="number" id="temperature" min="0" max="2" step="0.1" value="0.7">
+                </div>
+                <div class="param-control">
+                    <label>Top P:</label>
+                    <input type="number" id="top-p" min="0" max="1" step="0.1" value="0.9">
+                </div>
+                <div class="param-control">
+                    <label>Max Tokens:</label>
+                    <input type="number" id="max-tokens" min="1" max="4096" value="512">
+                </div>
+                <div class="param-control">
+                    <label>Top K:</label>
+                    <input type="number" id="top-k" min="0" max="100" value="40">
+                </div>
+                <div class="param-control">
+                    <label>Presence Penalty:</label>
+                    <input type="number" id="presence-penalty" min="0" max="5" step="0.1" value="1.1">
+                </div>
+            </div>
+        </div>
+        
+        <input type="text" id="system-prompt-input" 
+               placeholder="⚙️ System instruction">
+        <button id="model-help" class="nav-button" title="Model Help">❓</button>
+    </nav>
+
+    <div id="chat-container">
+        <div id="messages"></div>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Type your message..." disabled>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        
+        <!-- Add footer inside chat-container -->
+        <footer>
+            <div class="footer-content">
+                <span>Crafted with Ollama • Honoring MK's Vision</span>
+                <span>•</span>
+                <span>Private Offline Conversations 🔒</span>
+                <span>•</span>
+                <span>Your Data Never Leaves Your Device</span>
+                <span>•</span>
+                <span>v1.0.0</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Add to bottom of body before scripts -->
+    <template id="progress-template">
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="progress-text">
+          <span class="progress-percentage">0%</span>
+          <span class="progress-status">Starting download...</span>
+        </div>
+      </div>
+    </template>
+
+    <!-- Add before closing body tag -->
+    <div id="model-help-modal">
+        <h3>Finding Models</h3>
+        <p>Browse available models at:<br>
+        <a href="https://ollama.com/library" target="_blank">https://ollama.com/library</a></p>
+        
+        <div class="system-requirements-note">
+            <strong>System Requirements:</strong>
+            <ul>
+                <li>7B models: Minimum 8GB RAM</li>
+                <li>13B models: Minimum 16GB RAM</li>
+                <li>33B models: Minimum 32GB RAM</li>
+            </ul>
+        </div>
+
+        <p>Popular models include:<br>
+        • llama3 (requires 8GB+ RAM)<br>
+        • mistral (7B - 8GB RAM)<br>
+        • phi3 (3.8B - 4GB RAM)<br>
+        • codellama (7B-34B)</p>
+        
+        <p>Enter models in format: <code>repository:tag</code><br>
+        Example: <code>llama2:7b</code></p>
+        
+        <button onclick="document.getElementById('model-help-modal').classList.remove('show')">Close</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html> 
