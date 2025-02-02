@@ -2,21 +2,45 @@
 
 ![Chat Interface](screenshots/chat-interface.png)
 
-A private, offline-first chat application powered by local AI models through Ollama.
+A private, free, offline-first chat application powered by Open Source AI models like DeepSeek, Llama, Mistral, etc. through Ollama.
 
 ## Features
 - Full conversation history
 - Model parameter controls
-- Local model management
+- Ollama-powered local AI processing
+- Multi-LLM support (DeepSeek, Llama 2, Mistral, etc.)
 - Markdown support
 - System prompt engineering
 - Secure offline storage
+- Open source model ecosystem
 
 ## Tech Stack
 **Frontend:** HTML5, CSS3, Vanilla JavaScript  
 **Backend:** FastAPI, Ollama Python Client  
-**AI Engine:** Ollama  
+**AI Engine:** Ollama (Free & Open Source)  
+  - Local model deployment & management  
+  - Cross-platform support (Linux/macOS/Windows)  
+  - Community-driven model library (Llama 2, Mistral, etc.)  
+  - Efficient CPU/GPU resource utilization  
 **Powered By:** DeepSeek-R1
+
+## Supported LLM Models
+**🧠 Local AI Model Library**  
+Ollama supports 100+ open source models including:
+
+| Model Family | Example Sizes | Specialization |
+|--------------|---------------|----------------|
+| DeepSeek     | 7B, 33B       | General purpose, coding |
+| Llama 2      | 7B, 13B, 70B  | Conversational AI      |
+| Mistral      | 7B, 8x7B      | Multilingual support   |
+| CodeLlama    | 7B, 13B       | Code generation        |
+| Phi-2        | 2.7B          | Compact reasoning      |
+
+```bash
+# Install new models via Ollama
+ollama pull deepseek-r1  # 33B parameter model
+ollama pull llama2:13b   # Medium-sized variant
+```
 
 ## Installation
 
@@ -86,7 +110,7 @@ endLine: 189
 
 ## Acknowledgements
 - Special thanks to MK for architectural guidance
-- Ollama integration inspired by their official Python client
+- Ollama integration (Apache 2.0 License) for private AI processing
 - UI design influenced by modern chat applications
 
 ## License
@@ -94,8 +118,7 @@ AGPL-3.0
 
 ---
 
-**Powered By:** DeepSeek-R1 • Ollama  
-**Data Storage:** Conversations never leave your device  
-**Model Safety:** All AI interactions are 100% private & secure 
-**Model Management:** Download new models from the web
-**Model Training:** Use your own data to train your own models
+**Powered By:** DeepSeek-R1 • Ollama (Open Source AI Platform)  
+**Model Variety:** Choose from 100+ open source LLMs with sizes from 2B to 70B parameters  
+**Local AI:** Full offline capability - zero cloud dependencies  
+**Specialized Models:** Coding, multilingual, medical, and legal variants available
