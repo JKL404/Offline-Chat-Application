@@ -38,7 +38,7 @@ C --> D[(Ollama Engine)]
 D --> E[Local Models]
 E --> F[CPU/GPU Optimized]
 ```
-
+## 🌐 Supported Model Ecosystem
 | Model Family     | Example Sizes | Specialization          |
 |------------------|---------------|-------------------------|
 | Vision Models    | 7B, 13B, 34B  | Image understanding     |
@@ -52,16 +52,12 @@ E --> F[CPU/GPU Optimized]
 - `llama3.2-vision` - Llama3-based visual understanding
 - `llava-llama3` - LLaVA implementation for Llama3
 
-```bash
-# Install new models via Ollama
-ollama pull deepseek-r1  # 33B parameter model
-ollama pull llama2:13b   # Medium-sized variant
-
-# Install vision models
-ollama pull llava:7b        # 7B parameter vision model
-ollama pull llama3.2-vision    # Official Llama3 vision variant
-ollama pull llava-llama3:8b    # Llama3-based LLaVA implementation
-```
+**❗ System Requirements Note**  
+⚠️ **Memory Requirements for Local AI:**  
+- 7B models: Minimum 8GB RAM (16GB recommended)  
+- 13B models: Minimum 16GB RAM (32GB recommended)  
+- 33B+ models: 32GB+ RAM required  
+*Note: Insufficient memory may cause slow performance or model failures*
 
 ## Installation
 
