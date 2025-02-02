@@ -169,7 +169,7 @@ Explore our [API Doc](https://github.com/JKL404/Offline-Chat-Application/blob/ma
 - Plugin development tutorials
 
 ## Image Support Details
-- 📸 Multi-image conversations (JPG/PNG/WEBP)  
+- 📸 Multi-image conversations (JPG/PNG/GIF)  
 - 🔍 Zoomable previews with pinch-to-zoom  
 - 🧠 Vision model integration  
 - 📦 Local image processing (no cloud uploads)  
