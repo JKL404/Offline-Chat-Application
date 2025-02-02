@@ -7,6 +7,7 @@ marked.setOptions({
 });
 
 let currentStream = null;
+let attachedImages = [];
 
 // Modified model loading code
 async function loadModels() {
@@ -77,19 +78,30 @@ async function sendMessage() {
     sendBtn.disabled = true;
     sendBtn.classList.remove('active');
 
-    // Add user message
-    appendMessage('user', message);
+    // Add user message with images
+    appendMessage('user', message, attachedImages);
     input.value = '';
     
-    // Collect full history
+    // Collect full history BEFORE clearing images
     const messageElements = document.querySelectorAll('#messages .message');
     const messages = Array.from(messageElements).map(element => {
         const isUser = element.classList.contains('user-message');
-        return {
+        const messageObj = {
             role: isUser ? 'user' : 'assistant',
             content: element.querySelector('.content').textContent
         };
+        
+        // Only add images array if we have attachments
+        if (isUser && element === messageElements[messageElements.length - 1] && attachedImages.length > 0) {
+            messageObj.images = [...attachedImages]; 
+        }
+        
+        return messageObj;
     });
+
+    // Clear images AFTER API call preparation
+    attachedImages = [];
+    document.getElementById('image-previews').innerHTML = '';
 
     // Add bot message container
     const botMessageId = appendMessage('bot', '');
@@ -97,7 +109,7 @@ async function sendMessage() {
     try {
         currentStream = await streamChat({
             model: model,
-            messages: messages  // Send full history
+            messages: messages
         }, botMessageId);
     } catch (error) {
         updateMessage(botMessageId, `Error: ${error.message}`);
@@ -129,7 +141,7 @@ document.getElementById('user-input').addEventListener('input', function(e) {
 });
 
 // Modified appendMessage function
-function appendMessage(role, content) {
+function appendMessage(role, content, images = []) {
     const messagesDiv = document.getElementById('messages');
     const messageId = `msg-${Date.now()}-${role}`;
     
@@ -156,6 +168,20 @@ function appendMessage(role, content) {
     // Add initial content as text node
     contentDiv.appendChild(document.createTextNode(content));
     messageDiv.appendChild(contentDiv);
+
+    // Add images if present
+    if (images.length > 0) {
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'image-container';
+        images.forEach(imgData => {
+            const img = document.createElement('img');
+            img.className = 'message-image';
+            img.src = `data:image/jpeg;base64,${imgData}`; // Display with prefix
+            imageContainer.appendChild(img);
+        });
+        messageDiv.appendChild(imageContainer);
+    }
+    
     messagesDiv.appendChild(messageDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
     
@@ -230,6 +256,10 @@ document.addEventListener('click', (e) => {
 async function streamChat(chatData, messageId) {
     const systemPrompt = document.getElementById('system-prompt-input').value;
     
+    // Get last message from chatData instead of attachedImages
+    const lastMessage = chatData.messages[chatData.messages.length - 1];
+    
+    // No need to modify the message here - it already contains images
     const response = await fetch('http://localhost:3000/api/chat', {
         method: 'POST',
         headers: { 
@@ -413,5 +443,51 @@ function loadHistory() {
     const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
     history.forEach(msg => {
         appendMessage(msg.role, msg.content);
+    });
+}
+
+// Update image preview handling to store raw base64
+document.getElementById('image-upload').addEventListener('change', async function(e) {
+    const files = e.target.files;
+    attachedImages = [];
+    
+    // Clear previous previews
+    const previewContainer = document.getElementById('image-previews');
+    previewContainer.innerHTML = '';
+    
+    for (let file of files) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            // Extract ONLY the base64 part
+            const base64Data = reader.result.split(',')[1];
+            attachedImages.push(base64Data);
+            
+            // Create preview with correct MIME type
+            const img = document.createElement('img');
+            img.src = `data:${file.type};base64,${base64Data}`; // Use actual file type
+            img.className = 'upload-preview';
+            img.title = 'Click to remove';
+            
+            // Add remove functionality
+            img.onclick = () => {
+                const index = attachedImages.indexOf(base64Data);
+                if (index > -1) {
+                    attachedImages.splice(index, 1);
+                }
+                previewContainer.removeChild(img);
+            };
+            
+            previewContainer.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
     });
 }

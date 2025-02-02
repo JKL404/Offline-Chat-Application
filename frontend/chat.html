@@ -52,8 +52,13 @@
     <div id="chat-container">
         <div id="messages"></div>
         <div id="input-container">
-            <input type="text" id="user-input" placeholder="Type your message..." disabled>
-            <button onclick="sendMessage()">Send</button>
+            <input type="file" id="image-upload" multiple accept="image/*" style="display: none;">
+            <button class="icon-button" onclick="document.getElementById('image-upload').click()">📷</button>
+            <div style="display: flex; align-items: center; gap: 8px; flex-grow: 1;">
+                <div id="image-previews" style="display: flex; gap: 4px; align-items: center;"></div>
+                <input type="text" id="user-input" placeholder="Type your message..." style="flex-grow: 1;">
+            </div>
+            <button class="send-button" onclick="sendMessage()">Send</button>
         </div>
         
         <!-- Add footer inside chat-container -->
