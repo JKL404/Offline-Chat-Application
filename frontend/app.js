@@ -9,10 +9,13 @@ marked.setOptions({
 let currentStream = null;
 let attachedImages = [];
 
+// Add this at the very top of app.js
+const API_BASE_URL = 'http://localhost:3000';
+
 // Modified model loading code
 async function loadModels() {
     try {
-        const response = await fetch('http://localhost:3000/api/tags', {
+        const response = await fetch(`${API_BASE_URL}/api/tags`, {
             headers: {
                 'ngrok-skip-browser-warning': 'true'
             }
@@ -260,7 +263,7 @@ async function streamChat(chatData, messageId) {
     const lastMessage = chatData.messages[chatData.messages.length - 1];
     
     // No need to modify the message here - it already contains images
-    const response = await fetch('http://localhost:3000/api/chat', {
+    const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
@@ -328,7 +331,7 @@ document.getElementById('download-model').addEventListener('click', async () => 
     if (!modelName) return;
 
     try {
-        const response = await fetch('http://localhost:3000/api/pull', {
+        const response = await fetch(`${API_BASE_URL}/api/pull`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

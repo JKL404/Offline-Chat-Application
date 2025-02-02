@@ -102,8 +102,49 @@ pip install -r backend/requirements.txt
 uvicorn main:app --reload --port 3000
 ```
 
-### 3. Open `chat.html` and converse privately!
+### 3. Frontend Setup (Required for Offline Use)
+```bash
+# Navigate to frontend directory
+cd frontend
 
+# Serve via local HTTP server on port 8000
+python3 -m http.server 8000 --bind 127.0.0.1
+
+# Now access at: http://localhost:8000/chat.html
+```
+[localhost:8000/chat.html](http://localhost:8000/chat.html)
+
+
+### 4. Alternative Access Methods
+| Method | Command | When to Use |
+|--------|---------|-------------|
+| **Local Server** (Recommended) | `python3 -m http.server 8000` | Offline access |
+| **Direct File** | `open chat.html` | (Requires Internet Access in case of file access) |
+
+**❗ Critical Offline Note:**  
+For complete offline functionality:
+1. First download models while online using the interface
+2. All services must run on localhost:
+   - Ollama: `ollama serve`
+   - Backend: `uvicorn main:app --port 3000`
+   - Frontend: `python3 -m http.server 8000`
+3. Access via `http://localhost:8000/chat.html` never `file://`
+
+## Running Full Stack
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant Ollama
+    
+    User->>Frontend: http://localhost:8000
+    Frontend->>Backend: API Calls (localhost:3000)
+    Backend->>Ollama: Model Requests (localhost:11434)
+    Ollama-->>Backend: AI Responses
+    Backend-->>Frontend: Processed Data
+    Frontend-->>User: Rendered Interface
+```
 
 ## Project Structure
 ```
@@ -165,3 +206,10 @@ AGPL-3.0
 
 **🔗 Powered By**  
 [Ollama](https://ollama.ai) • [DeepSeek-R1](https://deepseek.com) • [FastAPI](https://fastapi.tiangolo.com)
+
+## Port Configuration Reference
+| Service       | Port  | Purpose                      |
+|---------------|-------|------------------------------|
+| **Frontend**  | 8000  | Web interface                |
+| **Backend**   | 3000  | FastAPI server               | 
+| **Ollama**    | 11434 | Model inference & management |
