@@ -43,7 +43,10 @@ async function loadModels() {
 }
 
 // Modified initialization
-window.onload = loadModels;
+window.onload = () => {
+    loadModels();
+    loadHistory();
+};
 
 // Updated sendMessage function
 async function sendMessage() {
@@ -156,6 +159,9 @@ function appendMessage(role, content) {
     messagesDiv.appendChild(messageDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
     
+    // Save to local storage
+    saveHistory();
+    
     return messageId;
 }
 
@@ -199,6 +205,9 @@ function updateMessage(id, newContent) {
             }
             
             messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Save updated message to local storage
+            saveHistory();
         }
     }
 }
@@ -280,6 +289,7 @@ async function streamChat(chatData, messageId) {
 document.getElementById('new-conversation').addEventListener('click', () => {
     document.getElementById('messages').innerHTML = '';
     document.getElementById('system-prompt-input').value = '';
+    localStorage.removeItem('chatHistory');
 });
 
 // Update the download handler in app.js
@@ -384,3 +394,24 @@ document.addEventListener('click', (e) => {
         modal.classList.remove('show');
     }
 });
+
+// Add new saveHistory function
+function saveHistory() {
+    const messageElements = document.querySelectorAll('#messages .message');
+    const history = Array.from(messageElements).map(element => {
+        const isUser = element.classList.contains('user-message');
+        return {
+            role: isUser ? 'user' : 'assistant',
+            content: element.querySelector('.content').textContent
+        };
+    });
+    localStorage.setItem('chatHistory', JSON.stringify(history));
+}
+
+// Add new loadHistory function
+function loadHistory() {
+    const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+    history.forEach(msg => {
+        appendMessage(msg.role, msg.content);
+    });
+}
