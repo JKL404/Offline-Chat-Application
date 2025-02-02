@@ -185,7 +185,7 @@ Explore our [API Doc](https://github.com/JKL404/Offline-Chat-Application/blob/ma
 **Requirements:**
 1. Must use a vision-capable model
 2. Images under 5MB recommended
-3. Supported formats: JPEG, PNG, WEBP
+3. Supported formats: JPEG, PNG, GIF
 
 **Disclaimer:**  
 ⚠️ Standard language models (non-vision) will ignore attached images.  
