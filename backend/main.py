@@ -4,7 +4,7 @@ from fastapi import FastAPI, HTTPException, Body
 from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any, Union
 from ollama import AsyncClient
 import os
 
@@ -44,14 +44,27 @@ class Query(BaseModel):
     presence_penalty: Optional[float] = Field(default=1.1, ge=0.0, le=5.0, description="Penalize new tokens based on existence in text")
 
 
+class ChatMessage(BaseModel):
+    """
+    Message for chat with Ollama
+    """
+    role: str
+    content: str
+    images: Optional[Union[List[str], None]] = None
+    
+    class Config:
+        exclude_unset = True
+
+
 class ChatQuery(BaseModel):
     """
     Query for chat with Ollama
     """
-    model: str = Field(default="llama2", example="llama2")
-    messages: List[Dict[str, str]] = Field(..., example=[{
+    model: str = Field(default="llava", example="llava")
+    messages: List[ChatMessage] = Field(..., example=[{
         "role": "user", 
-        "content": "Hello"
+        "content": "Describe this image",
+        "images": ["<BASE64_IMAGE>"]
     }])
     system_prompt: Optional[str] = None
     stream: Optional[bool] = True
@@ -148,13 +161,18 @@ async def stream_chat_response(
     Stream chat response from Ollama with proper error handling
     """
     try:
-        # Add system prompt if provided
+        # Process messages to remove null images
+        cleaned_messages = [
+            {k: v for k, v in msg.dict(exclude_none=True).items()}
+            for msg in messages
+        ]
+        
         if system_prompt:
-            messages.insert(0, {"role": "system", "content": system_prompt})
+            cleaned_messages.insert(0, {"role": "system", "content": system_prompt})
         
         response = await client.chat(
             model=model,
-            messages=messages,
+            messages=cleaned_messages,
             options=create_options_dict(
                 temperature=temperature,
                 top_p=top_p,

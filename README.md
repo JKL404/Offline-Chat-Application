@@ -1,11 +1,16 @@
-# Offline Chat Application
+# 🚀 Next-Gen Private AI Chat - Your Data, Your Control  
+*Experience the future of confidential conversations with self-hosted AI models running entirely on your device*
 
-![Chat Interface](screenshots/chat-interface.png)
+[![GitHub Stars](https://img.shields.io/github/stars/JKL404/Offline-Chat-Application)](https://github.com/JKL404/Offline-Chat-Application)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
+
+![Chat Interface](screenshots/chat-interface-with-image.png)
 
 A private, free, offline-first chat application powered by Open Source AI models like DeepSeek, Llama, Mistral, etc. through Ollama.
 
 ## Features
 - Full conversation history
+- **Image upload support** for vision models (LLaVA, Llama3.2-Vision)
 - Model parameter controls
 - Ollama-powered local AI processing
 - Multi-LLM support (DeepSeek, Llama 2, Mistral, etc.)
@@ -24,22 +29,38 @@ A private, free, offline-first chat application powered by Open Source AI models
   - Efficient CPU/GPU resource utilization  
 **Powered By:** DeepSeek-R1
 
-## Supported LLM Models
-**🧠 Local AI Model Library**  
-Ollama supports 100+ open source models including:
+## 🛠️ Tech Powerhouse
+```mermaid
+graph LR
+A[Beautiful UI] --> B[Vanilla JS]
+B --> C{FastAPI}
+C --> D[(Ollama Engine)]
+D --> E[Local Models]
+E --> F[CPU/GPU Optimized]
+```
 
-| Model Family | Example Sizes | Specialization |
-|--------------|---------------|----------------|
-| DeepSeek     | 7B, 33B       | General purpose, coding |
-| Llama 2      | 7B, 13B, 70B  | Conversational AI      |
-| Mistral      | 7B, 8x7B      | Multilingual support   |
-| CodeLlama    | 7B, 13B       | Code generation        |
-| Phi-2        | 2.7B          | Compact reasoning      |
+| Model Family     | Example Sizes | Specialization          |
+|------------------|---------------|-------------------------|
+| Vision Models    | 7B, 13B, 34B  | Image understanding     |
+| DeepSeek         | 7B, 33B       | General purpose, coding |
+| Llama 3          | 8B, 70B       | General reasoning       |
+| LLaVA            | 7B, 13B       | Multimodal vision       |
+| Llama3.2-Vision  | 8B            | Image-to-text           |
+
+**❗ Important Note:** Image upload functionality only works with vision-capable models like:
+- `llava:7b` - Large Language and Vision Assistant
+- `llama3.2-vision` - Llama3-based visual understanding
+- `llava-llama3` - LLaVA implementation for Llama3
 
 ```bash
 # Install new models via Ollama
 ollama pull deepseek-r1  # 33B parameter model
 ollama pull llama2:13b   # Medium-sized variant
+
+# Install vision models
+ollama pull llava:7b        # 7B parameter vision model
+ollama pull llama3.2-vision    # Official Llama3 vision variant
+ollama pull llava-llama3:8b    # Llama3-based LLaVA implementation
 ```
 
 ## Installation
@@ -60,38 +81,33 @@ Download installer from [ollama.com/download/OllamaSetup.exe](https://ollama.com
 
 #### Linux
 ```bash
-curl -fsSL https://ollama.com/install.sh | sh
+curl -fsSL https://ollama.ai/install.sh | sh
 ```
 
-### 2. Backend Dependencies
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
-### 3. Frontend Setup
-```bash
-cd frontend
-# No installation needed - pure HTML/JS/CSS
-```
-
-## Running the Application
-
-1. Start Ollama Service:
+### 2. Backend Setup
+2.1. Start Ollama Service:
 ```bash
 ollama serve
+
+# Optional: Pull models - for faster startup. Note You can also download models from chat.html
+ollama pull deepseek-r1  # 33B parameter model
+ollama pull llama2:13b   # Medium-sized variant
+ollama pull llava:7b        # 7B parameter vision model
+ollama pull llama3.2-vision    # Official Llama3 vision variant
+ollama pull llava-llama3:8b    # Llama3-based LLaVA implementation
 ```
 
-2. Start Backend API:
+2.2. Install Python Dependencies:
 ```bash
-cd backend
-uvicorn main:app --reload --host 0.0.0.0 --port 3000
+pip install -r backend/requirements.txt
+```
+2.3. Start FastAPI Server:
+```bash
+uvicorn main:app --reload --port 3000
 ```
 
-3. Open Frontend:
-```bash
-open frontend/chat.html  # Or double-click in file explorer
-```
+### 3. Open `chat.html` and converse privately!
+
 
 ## Project Structure
 ```
@@ -105,31 +121,51 @@ project-root/
     └── requirements.txt   # Python dependencies
 ```
 
-## Key Code References
+---
 
-Frontend footer implementation:
-```html:frontend/chat.html
-startLine: 50
-endLine: 62
-```
+**📜 Full Documentation**  
+Explore our [Wiki](https://github.com/yourrepo/offline-ai-chat/wiki) for:
+- Advanced model configurations
+- Vision pipeline architecture
+- Local deployment guides
+- Plugin development tutorials
 
-Backend streaming logic:
-```python:backend/main.py
-startLine: 150
-endLine: 189
-```
+## Image Support Details
+- 📸 Multi-image conversations (JPG/PNG/WEBP)  
+- 🔍 Zoomable previews with pinch-to-zoom  
+- 🧠 Vision model integration  
+- 📦 Local image processing (no cloud uploads)  
+
+**⚠️ Important:** Image understanding requires vision-capable models like: `llava:7b`, `llama3.2-vision`, `llava-llama3:8b`
+
+**Capabilities:**
+- Upload multiple images per message (JPG/PNG)
+- Images are processed locally using vision models
+- Combined text+image understanding
+- Image previews with zoom functionality
+
+**Requirements:**
+1. Must use a vision-capable model
+2. Images under 5MB recommended
+3. Supported formats: JPEG, PNG, WEBP
+
+**Disclaimer:**  
+⚠️ Standard language models (non-vision) will ignore attached images.  
+🔍 Vision capabilities require specific model architectures - regular LLMs cannot process images even if attached.
 
 ## Acknowledgements
-- Special thanks to MK for architectural guidance
+- Special thanks to MK.
 - Ollama integration (Apache 2.0 License) for private AI processing
 - UI design influenced by modern chat applications
+
+## 💡 Ethical AI Note
+*We champion responsible AI - all models are open-source and locally hosted.  
+No hidden trackers, no data harvesting, just pure AI innovation.*
 
 ## License
 AGPL-3.0
 
 ---
 
-**Powered By:** DeepSeek-R1 • Ollama (Open Source AI Platform)  
-**Model Variety:** Choose from 100+ open source LLMs with sizes from 2B to 70B parameters  
-**Local AI:** Full offline capability - zero cloud dependencies  
-**Specialized Models:** Coding, multilingual, medical, and legal variants available
+**🔗 Powered By**  
+[Ollama](https://ollama.ai) • [DeepSeek-R1](https://deepseek.com) • [FastAPI](https://fastapi.tiangolo.com)
